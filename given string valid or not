@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+bool isValidString(const char* str, int maxLength)
+{
+    
+    if (str == NULL || strlen(str) == 0)
+    {
+        return false;
+    }
+
+    
+    if (strlen(str) > maxLength)
+    {
+        return false;
+    }
+
+    
+    for (int i = 0; i < strlen(str); i++)
+    {
+        if (str[i] < 32 || str[i] > 126)
+        {
+            
+            return false;
+        }
+    }
+
+    
+    return true;
+}
+
+int main()
+{
+    const char* inputString = "Hello, world!";
+    int maxLength = 100;
+
+    if (isValidString(inputString, maxLength))
+    {
+        printf("The string is valid.\n");
+    }
+    else
+    {
+        printf("The string is not valid.\n");
+    }
+
+    return 0;
+}
+
+
