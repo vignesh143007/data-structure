@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+void printFrequentCounts(int arr[], int size)
+{
+    
+    int count[MAX_SIZE] = {0};
+
+    
+    for (int i = 0; i < size; i++)
+    {
+        count[arr[i]]++;
+    }
+
+    
+    int maxCount = 0;
+    for (int i = 0; i < MAX_SIZE; i++)
+    {
+        if (count[i] > maxCount)
+        {
+            maxCount = count[i];
+        }
+    }
+
+    
+    printf("Frequently repeated numbers and their counts:\n");
+    for (int i = 0; i < MAX_SIZE; i++)
+    {
+        if (count[i] == maxCount && count[i] > 1)
+        {
+            printf("%d occurs %d times\n", i, count[i]);
+        }
+    }
+}
+
+int main()
+{
+    int arr[] = {1, 2, 3, 2, 4, 3, 2, 5, 4, 5, 5};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printFrequentCounts(arr, size);
+
+    return 0;
+}
+
