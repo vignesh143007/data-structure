@@ -1,86 +1,74 @@
 #include <stdio.h>
-#include <stdlib.h>
-struct Node
-{
-    int data;
-    struct Node *next;
-} *temp = NULL, *first = NULL, *second = NULL, *third = NULL, *last = NULL;
-struct Node* Create (int A[], int n)
-{
-    int i;
-    struct Node *t, *last;
-    temp = (struct Node *) malloc(sizeof(struct Node));
-    temp->data = A[0];
-    temp->next = NULL;
-    last = temp;
-    for (i = 1; i < n; i++)
-    {
-        t = (struct Node *) malloc(sizeof(struct Node));
-        t->data = A[i];
-        t->next = NULL;
-        last->next = t;
-        last = t;
-    }
-    return temp;
+
+#define MAX_SIZE 100
+
+// Stack data structure
+typedef struct {
+    int data[MAX_SIZE];
+    int top;
+} Stack;
+
+// Initialize an empty stack
+void init(Stack* stack) {
+    stack->top = -1;
 }
-void Display(struct Node *p)
-{
-    while (p != NULL)
-    {
-        printf ("%d ", p->data);
-        p = p->next;
-    }
+
+// Check if the stack is empty
+int isEmpty(Stack* stack) {
+    return stack->top == -1;
 }
-void Merge(struct Node *first, struct Node *second)
-{
-    if (first->data < second->data)
-    {
-        third = last = first;
-        first = first->next;
-        last->next = NULL;
-    }
-    else
-    {
-        third = last = second;
-        second = second->next;
-        last->next = NULL;
-    }
-    
-    while (first != NULL && second != NULL)
-    {
-        if (first->data < second->data)
-        {
-            last->next = first;
-            last = first;
-            first = first->next;
-            last->next = NULL;
-        }
-        else
-        {
-            last->next = second;
-            last = second;
-            second = second->next;
-            last->next = NULL;
-        }
-    }
-    
-    if (first != NULL)
-        last->next = first;
-    else
-        last->next = second;
+
+// Check if the stack is full
+int isFull(Stack* stack) {
+    return stack->top == MAX_SIZE - 1;
 }
-int main()
-{
-    int A[] = { 3, 4, 7, 9 };
-    int B[] = { 2, 5, 6, 8 };
-    first = Create (A, 4);
-    second = Create (B, 4);
-    printf ("1st Linked List: ");
-    Display (first);
-    printf ("\n2nd Linked List: ");
-    Display (second);
-    Merge (first, second);
-    printf ("\n\nMerged Linked List: \n");
-    Display (third);
-  return 0;
+
+// Push an element onto the stack
+void push(Stack* stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack->top++;
+    stack->data[stack->top] = value;
 }
+
+// Pop an element from the stack
+int pop(Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow\n");
+        return -1; // Return some sentinel value to indicate failure
+    }
+    int value = stack->data[stack->top];
+    stack->top--;
+    return value;
+}
+
+// Peek the top element of the stack without removing it
+int peek(Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty\n");
+        return -1; // Return some sentinel value to indicate failure
+    }
+    return stack->data[stack->top];
+}
+
+int main() {
+    Stack myStack;
+    init(&myStack);
+
+    push(&myStack, 10);
+    push(&myStack, 20);
+    push(&myStack, 30);
+
+    printf("Top element: %d\n", peek(&myStack));
+
+    printf("Popping elements: ");
+    while (!isEmpty(&myStack)) {
+        printf("%d ", pop(&myStack));
+    }
+    printf("\n");
+
+    return 0;
+}
+
