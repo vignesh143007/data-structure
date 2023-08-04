@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX_SIZE 100
+
+struct Stack
+{
+    int data[MAX_SIZE];
+    int top1;
+    int top2;
+};
+
+
+void initialize(struct Stack *stack)
+{
+    stack->top1 = -1;
+    stack->top2 = MAX_SIZE;
+}
+
+bool isStack1Empty(struct Stack *stack)
+{
+    return (stack->top1 == -1);
+}
+
+bool isStack2Empty(struct Stack *stack)
+{
+    return (stack->top2 == MAX_SIZE);
+}
+
+bool isStack1Full(struct Stack *stack)
+{
+    return (stack->top1 == MAX_SIZE - 1);
+}
+
+bool isStack2Full(struct Stack *stack)
+{
+    return (stack->top2 == 0);
+}
+
+void pushStack1(struct Stack *stack, int value)
+{
+    if (isStack1Full(stack)) {
+        printf("Stack 1 is full. Cannot push.\n");
+    } else {
+        stack->top1++;
+        stack->data[stack->top1] = value;
+    }
+}
+
+void pushStack2(struct Stack *stack, int value)
+{
+    if (isStack2Full(stack)) {
+        printf("Stack 2 is full. Cannot push.\n");
+    } else {
+        stack->top2--;
+        stack->data[stack->top2] = value;
+    }
+}
+
+int popStack1(struct Stack *stack)
+{
+    if (isStack1Empty(stack))
+    {
+        printf("Stack 1 is empty. Cannot pop.\n");
+        return -1;
+    } else {
+        int value = stack->data[stack->top1];
+        stack->top1--;
+        return value;
+    }
+}
+
+int popStack2(struct Stack *stack)
+{
+    if (isStack2Empty(stack)) {
+        printf("Stack 2 is empty. Cannot pop.\n");
+        return -1;
+    } else {
+        int value = stack->data[stack->top2];
+        stack->top2++;
+        return value;
+    }
+}
+
+int getSum(struct Stack *stack) {
+    if (isStack1Empty(stack) || isStack2Empty(stack))
+    {
+        printf("Both stacks must have at least one element to get the sum.\n");
+        return 0;
+    }
+
+    int sum = popStack1(stack) + popStack2(stack);
+    return sum;
+}
+
+int main()
+{
+    struct Stack stack;
+    initialize(&stack);
+
+    pushStack1(&stack, 10);
+    pushStack1(&stack, 20);
+    pushStack1(&stack, 30);
+
+    pushStack2(&stack, 5);
+    pushStack2(&stack, 15);
+    pushStack2(&stack, 25);
+
+    int sum = getSum(&stack);
+    printf("Sum: %d\n", sum);
+
+    return 0;
+}
+
